@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Password Strength Checker</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.container {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 380px;
+    text-align: center;
+    box-shadow: 0 5px 20px #333;
+}
+
+h2 {
+    color: #663399;
+}
+
+input {
+    width: 100%;
+    padding: 13px;
+    border: 2px solid #aaa;
+    border-radius: 8px;
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+button {
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    margin: 5px;
+}
+
+#toggleBtn {
+    background: #764ba2;
+    color: white;
+}
+
+#checkBtn {
+    background: #667eea;
+    color: white;
+    width: 100%;
+}
+
+#result {
+    font-weight: bold;
+    margin-top: 20px;
+    font-size: 18px;
+}
+
+#bar {
+    height: 10px;
+    background: #ddd;
+    border-radius: 10px;
+    margin-top: 15px;
+}
+
+#strength {
+    height: 10px;
+    width: 0%;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>🔐 Password Checker</h2>
+
+<p>Check Your Password Strength</p>
+
+<input type="password"
+id="password"
+placeholder="Enter Password">
+
+<button type="button" id="toggleBtn"
+onclick="togglePassword()">
+Show Password
+</button>
+
+<button type="button" id="checkBtn"
+onclick="checkPassword()">
+Check Password
+</button>
+
+<div id="bar">
+<div id="strength"></div>
+</div>
+
+<p id="result">Enter Your Password</p>
+
+</div>
+
+<script>
+
+function togglePassword() {
+
+    let password = document.getElementById("password");
+    let button = document.getElementById("toggleBtn");
+
+    if (password.type === "password") {
+        password.type = "text";
+        button.innerText = "Hide Password";
+    } else {
+        password.type = "password";
+        button.innerText = "Show Password";
+    }
+}
+
+function checkPassword() {
+
+    let password = document.getElementById("password").value;
+    let result = document.getElementById("result");
+    let strength = document.getElementById("strength");
+
+    let score = 0;
+
+    if (password.length >= 8) score++;
+    if (/[A-Z]/.test(password)) score++;
+    if (/[a-z]/.test(password)) score++;
+    if (/[0-9]/.test(password)) score++;
+    if (/[^A-Za-z0-9]/.test(password)) score++;
+
+    if (password.length === 0) {
+        result.innerText = "Please Enter Password";
+        strength.style.width = "0%";
+        return;
+    }
+
+    if (score <= 2) {
+        result.innerText = "Weak Password ❌";
+        result.style.color = "red";
+        strength.style.width = "30%";
+        strength.style.background = "red";
+    }
+    else if (score <= 4) {
+        result.innerText = "Medium Password ⚠️";
+        result.style.color = "orange";
+        strength.style.width = "65%";
+        strength.style.background = "orange";
+    }
+    else {
+        result.innerText = "Strong Password ✅";
+        result.style.color = "green";
+        strength.style.width = "100%";
+        strength.style.background = "green";
+    }
+}
+
+</script>
+
+</body>
+</html>
+
